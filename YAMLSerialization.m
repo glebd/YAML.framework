@@ -228,7 +228,7 @@ static id YAMLSerializationWithDocument(yaml_document_t *document, YAMLReadOptio
 {
   NSMutableArray *documents = [NSMutableArray array];
   id documentObject = nil;
-  
+          
   yaml_parser_t parser;
   yaml_document_t document;
   BOOL done = NO;
@@ -246,16 +246,16 @@ static id YAMLSerializationWithDocument(yaml_document_t *document, YAMLReadOptio
   while (!done) {
 
     if (!yaml_parser_load(&parser, &document)) {
-		YAML_SET_ERROR(kYAMLErrorCodeParseError, @"Parse error", @"Make sure YAML file is well formed");
-		return nil;
+      YAML_SET_ERROR(kYAMLErrorCodeParseError, @"Parse error", @"Make sure YAML file is well formed");
+      return nil;
     }
   
     done = !yaml_document_get_root_node(&document);
     
     if (!done) {
       documentObject = YAMLSerializationWithDocument(&document, opt, error);
-      if (error) {
-		  yaml_document_delete(&document);
+      if (error != nil && *error) {
+        yaml_document_delete(&document);
       } else {
         [documents addObject: documentObject];
         [documentObject release];

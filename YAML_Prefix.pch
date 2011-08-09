@@ -3,5 +3,13 @@
 //
 
 #ifdef __OBJC__
+
+#ifdef TARGET_OS_IPHONE
+  #import <Foundation/Foundation.h.h>
+#endif
+
+#ifdef TARGET_OS_MAC
     #import <Cocoa/Cocoa.h>
+#endif
+
 #endif
