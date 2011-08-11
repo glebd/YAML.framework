@@ -21,6 +21,7 @@ NSString *const YAMLErrorDomain = @"com.github.mirek.yaml";
                                         recovery, NSLocalizedRecoverySuggestionErrorKey, \
                                         nil]]
 
+void setParseError(yaml_parser_t parser, NSError **error);
 
 void setParseError(yaml_parser_t parser, NSError **error) {
   NSString *description = [NSString stringWithCString:parser.problem encoding:NSASCIIStringEncoding];
