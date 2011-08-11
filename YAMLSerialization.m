@@ -22,6 +22,23 @@ NSString *const YAMLErrorDomain = @"com.github.mirek.yaml";
                                         nil]]
 
 
+void setParseError(yaml_parser_t parser, NSError **error) {
+  NSString *description = [NSString stringWithCString:parser.problem encoding:NSASCIIStringEncoding];
+  yaml_mark_t mark = parser.mark;
+  NSString *recovery = [NSString stringWithFormat:@"Fix error at line: %i, column: %i.", mark.line, mark.column];
+  
+  *error = [NSError errorWithDomain: YAMLErrorDomain
+                               code: kYAMLErrorCodeParseError
+                           userInfo: [NSDictionary dictionaryWithObjectsAndKeys:
+                                      description, NSLocalizedDescriptionKey,
+                                      recovery, NSLocalizedRecoverySuggestionErrorKey,
+                                      [NSNumber numberWithInt:mark.line], @"line",
+                                      [NSNumber numberWithInt:mark.column], @"column",
+                                      nil]];
+  
+}
+
+
 #pragma mark Write support
 #pragma mark -
 
@@ -248,7 +265,7 @@ static id YAMLSerializationWithDocument(yaml_document_t *document, YAMLReadOptio
   while (!done) {
 
     if (!yaml_parser_load(&parser, &document)) {
-      YAML_SET_ERROR(kYAMLErrorCodeParseError, @"Parse error", @"Make sure YAML file is well formed");
+      setParseError(parser, error);
       return nil;
     }
   
