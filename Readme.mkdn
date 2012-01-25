@@ -40,6 +40,15 @@ Should print dump string similar to:
       }
     )
 
+## Using as a subproject
+
+Drop YAML.xcodeproj inside your primary project. In the primary project's configuration under
+"Header Search Paths" add $(BUILT_PRODUCTS_DIR)/include
+
+Then when you need to use the library:
+
+	#import <YAML/YAMLSerialization.h>
+
 ## License
 
 `YAML.framework` is released under the MIT license.
