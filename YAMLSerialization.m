@@ -238,6 +238,28 @@ static id YAMLSerializationWithDocument(yaml_document_t *document, YAMLReadOptio
   return root;
 }
 
+
+@implementation NSDictionary (YAML)
+
++(id)dictionaryWithYAML:(NSString *)yamlFile {
+    
+    NSData *data = [[NSFileManager defaultManager] contentsAtPath:yamlFile];
+    
+    NSError *error = nil;
+    NSMutableArray * yaml = [YAMLSerialization YAMLWithData: data
+                                                    options: kYAMLReadOptionStringScalars
+                                                      error: &error];
+    
+    NSAssert(!error, @"Failed to parse document: %@", yamlFile);
+    NSAssert([yaml count] == 1, @"Why does our config have more than 1 document?");
+    
+    return [yaml objectAtIndex:0];   
+    
+}
+
+@end
+
+
 #pragma mark YAMLSerialization Implementation
 
 @implementation YAMLSerialization

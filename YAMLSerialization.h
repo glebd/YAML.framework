@@ -10,6 +10,7 @@
 #import <Foundation/Foundation.h>
 #import "yaml.h"
 
+
 // Mimics NSPropertyListMutabilityOptions
 typedef enum {
   kYAMLReadOptionImmutable                  = 0x0000000000000001,
@@ -34,6 +35,21 @@ typedef enum {
 } YAMLWriteOptions;
 
 extern NSString *const YAMLErrorDomain;
+
+
+#pragma mark -
+#pragma mark Categories
+
+@interface NSDictionary (YAML)
+
++(id)dictionaryWithYAML:(NSString *) yamlFile;
+
+@end
+
+
+#pragma mark -
+#pragma mark Primary interface
+
 
 @interface YAMLSerialization : NSObject {
 }
