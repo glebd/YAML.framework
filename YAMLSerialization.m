@@ -26,7 +26,7 @@ void setParseError(yaml_parser_t parser, NSError **error);
 void setParseError(yaml_parser_t parser, NSError **error) {
   NSString *description = [NSString stringWithCString:parser.problem encoding:NSASCIIStringEncoding];
   yaml_mark_t mark = parser.mark;
-  NSString *recovery = [NSString stringWithFormat:@"Fix error at line: %i, column: %i.", mark.line, mark.column];
+  NSString *recovery = [NSString stringWithFormat:@"Fix error at line: %lu, column: %lu.", mark.line, mark.column];
   
   *error = [NSError errorWithDomain: YAMLErrorDomain
                                code: kYAMLErrorCodeParseError
